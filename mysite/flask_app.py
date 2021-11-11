@@ -28,6 +28,6 @@ def upload_img():
         return 1
     return 0
 
-@app.route("/test_upload", methods=['POST'])
+@app.route("/test_upload", methods=['GET','POST'])
 def test_upload():
     return render_template('upload.html')
