@@ -22,10 +22,12 @@ def classify():
 
 @app.route("/img_upload", methods=['GET','POST'])
 def upload_img():
-    uploaded_image = request.files['file']
-    if uploaded_image.filename != '':
-        open(os.path.join(app.config[USER_UPLOADS], uploaded_image.filename)).write(uploaded_image)
-        return 1
+    if request.method=='POST':
+        uploaded_image = request.files['file']
+        if uploaded_image.filename != '':
+            open(os.path.join(app.config[USER_UPLOADS], uploaded_image.filename)).write(uploaded_image)
+            return 1
+        return 0
     return 0
 
 @app.route("/test_upload", methods=['GET','POST'])
