@@ -25,7 +25,7 @@ def upload_img():
     if request.method=='POST':
         uploaded_image = request.files['file']
         if uploaded_image.filename != '':
-            open(os.path.join(app.config[USER_UPLOADS], uploaded_image.filename)).write(uploaded_image)
+            open(os.path.join(app.config['USER_UPLOADS'], uploaded_image.filename)).write(uploaded_image)
             return redirect(url_for('index'))
     return render_template('index.html')
 
