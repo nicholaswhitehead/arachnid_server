@@ -3,7 +3,7 @@ import tensorflow as tf
 import classify as cl
 import os
 
-USER_UPLOADS = '~/arachnid/images'
+USER_UPLOADS = 'home/nicowhitehead/arachnid/images'
 
 app = Flask(__name__)
 app.config['USER_UPLOADS'] = USER_UPLOADS
