@@ -1,0 +1,18 @@
+123456
+
+PHYS 231.001 - Intro Physics II, Randy Booker
+PHYS 231.0L1 - Lab
+	TR 1:20-2:20, 2:25-4:05
+
+CSCI 338.001 - Software Engineering, Lee Johnson
+	MW 3:30-5:10
+CSCI 280.001 - Computer Science Seminar, Kevin Sanft
+	W 12:30-1:45
+
+
+CLAS 385.001 - Art & Archeology: Roman Art, Laurel Taylor  --  OVERLAPS CS SEMINAR - Could miss Wednesday classes?
+	MWF 12:30-1:45
+CLAS 407.001 - Latin Genres & Periods: Satire, Brian Hook  --  OVERLAPS SOFTWARE ENG. - Probably not gonna happen.
+	MW 3:30-5:10
+CLAS 326.001 - Ancient Sexuality, Sophie Mills  --  OVERLAPS PHYS. - Might be able to still join if Phys labs are malleable or AS is online/recorded
+	TR 3:15-4:55
