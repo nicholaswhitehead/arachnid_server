@@ -27,3 +27,7 @@ def upload_img():
         open(os.path.join(app.config[USER_UPLOADS], uploaded_image.filename)).write(uploaded_image)
         return 1
     return 0
+
+@app.route("/test_upload", methods=['POST'])
+def test_upload():
+    return render_template('upload.html')
