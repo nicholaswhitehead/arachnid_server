@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, redirect, url_for
 import tensorflow as tf
 import classify as cl
 import os
@@ -26,6 +26,7 @@ def upload_img():
         uploaded_image = request.files['file']
         if uploaded_image.filename != '':
             open(os.path.join(app.config[USER_UPLOADS], uploaded_image.filename)).write(uploaded_image)
+            return redirect(url_for('index'))
     return render_template('index.html')
 
 @app.route("/test_upload", methods=['GET','POST'])
