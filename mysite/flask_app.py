@@ -20,7 +20,7 @@ def index2():
 def classify():
     return cl.most_color('images/red.png')
 
-@app.route("/img_upload", methods=['POST'])
+@app.route("/img_upload", methods=['GET','POST'])
 def upload_img():
     uploaded_image = request.files['file']
     if uploaded_image.filename != '':
