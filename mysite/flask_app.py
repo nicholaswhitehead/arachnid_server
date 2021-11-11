@@ -28,7 +28,7 @@ def upload_img():
             uploaded_image.save(os.path.join(app.config['USER_UPLOADS'], uploaded_image.filename))
             # with open(os.path.join(app.config['USER_UPLOADS'], uploaded_image.filename), 'w') as file:
             #     file.write(uploaded_image)
-            return redirect(url_for('index'))
+            return redirect(url_for('test_upload'))
     return render_template('index.html')
 
 @app.route("/test_upload", methods=['GET','POST'])
