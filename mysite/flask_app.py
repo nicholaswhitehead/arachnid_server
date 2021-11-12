@@ -36,7 +36,7 @@ def upload_img():
             filewritetime = middle - start
             classifytime = end - middle
 
-            return [filewritetime, classifytime]
+            return str([filewritetime, classifytime, color])
             # return redirect(url_for('test_upload'))
     return render_template('index.html')
 
