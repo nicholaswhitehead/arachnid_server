@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import tensorflow as tf
 import classify as cl
 import os
+import time
 
 USER_UPLOADS = '/home/nicowhitehead/arachnid/images'
 
@@ -25,9 +26,17 @@ def upload_img():
     if request.method=='POST':
         uploaded_image = request.files['file']
         if uploaded_image.filename != '':
+            start = time.time()
             image_filepath = os.path.join(app.config['USER_UPLOADS'], uploaded_image.filename)
             uploaded_image.save(image_filepath)
-            return cl.most_color(image_filepath)
+            middle = time.time()
+            color = cl.most_color(image_filepath)
+            end = time.time()
+
+            filewritetime = middle - start
+            classifytime = end - middle
+
+            return [filewritetime, classifytime]
             # return redirect(url_for('test_upload'))
     return render_template('index.html')
 
