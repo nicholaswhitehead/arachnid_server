@@ -25,8 +25,10 @@ def upload_img():
     if request.method=='POST':
         uploaded_image = request.files['file']
         if uploaded_image.filename != '':
-            uploaded_image.save(os.path.join(app.config['USER_UPLOADS'], uploaded_image.filename))
-            return redirect(url_for('test_upload'))
+            image_filepath = os.path.join(app.config['USER_UPLOADS'], uploaded_image.filename)
+            uploaded_image.save(image_filepath)
+            return cl.most_color(image_filepath)
+            # return redirect(url_for('test_upload'))
     return render_template('index.html')
 
 @app.route("/test_upload", methods=['GET','POST'])
