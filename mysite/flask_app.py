@@ -13,11 +13,11 @@ app.config['USER_UPLOADS'] = USER_UPLOADS
 def index():
     return render_template('index.html')
 
-@app.route("/index2")
+@app.route("/tensorflow_test")
 def index2():
     return str(tf.reduce_sum(tf.random.normal([1000, 1000])))
 
-@app.route("/classify")
+@app.route("/dummy_test")
 def classify():
     return cl.most_color('images/red.png')
 
@@ -38,8 +38,4 @@ def upload_img():
 
             return str([filewritetime, classifytime, color])
             # return redirect(url_for('test_upload'))
-    return render_template('index.html')
-
-@app.route("/test_upload", methods=['GET','POST'])
-def test_upload():
     return render_template('upload.html')
