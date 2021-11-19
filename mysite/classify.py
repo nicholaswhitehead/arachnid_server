@@ -10,12 +10,8 @@ def most_color(img_file):
     green = np.sum(img[:,:,1])
     blue = np.sum(img[:,:,2])
     
-    # print(red/(height*width))
-    # print(green/(height*width))
-    # print(blue/(height*width))
-
-    # cv.imshow("image", img)
-    # cv.waitKey(0)
+    if red == 0 and green == 0 and blue == 0:
+        return "gray"
 
     if red > green and red > blue:
         return "red"
