@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import tensorflow as tf
 import classify as cl
 import os
+import time
 
 USER_UPLOADS = '/home/nicowhitehead/arachnid/images'
 
@@ -29,20 +30,18 @@ def upload_img():
     if request.method=='POST':
         uploaded_image = request.files['file']
 
-        # ensure file exists and is of correct type
+        # ensure file is not empty
         if uploaded_image.filename == '':
             return "No file received: PNG expected."
+
+        # ensure file is a PNG
         if uploaded_image.filename[-4:] != ".png":
             return "Unacceptable filetype: PNG expected."
         
-        # write input image to drive
         image_filepath = os.path.join(app.config['USER_UPLOADS'], uploaded_image.filename)
         uploaded_image.save(image_filepath)
 
         color = cl.most_color(image_filepath)
-
-        # remove image
-        os.remove(image_filepath)
 
         return color
         # return redirect(url_for('img_upload'))
