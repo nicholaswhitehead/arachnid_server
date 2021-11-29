@@ -1,32 +1,53 @@
 body {
-  background-color:#FDD2BF;
+  background-color:#171e28;
+  color:#fff9e4;
+}
+
+div[data-name="main"] {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:10%;
+  margin-bottom:2%
 }
 
 div[data-name="logo"] {
-    text-align:center;
-    margin-top:3%;
+  float:left;
 }
 
 div[data-name="title"] {
   font-family: "Roboto", sans-serif;
-  font-weight:100;
+  font-weight:300;
   font-size:100px;
   text-align:center;
-  margin-top:2%;
+  color:#fde89d;
+  padding-top:30px;
+  padding-left:30px;
 }
 
 div[data-name="subheading"] {
   font-family: "Roboto", sans-serif;
   font-weight:300;
-  font-size:24px;
+  font-size:36px;
   text-align:center;
-  margin-top:2%;
+  margin-top:4%;
 }
 
-div[data-name="links"] {
+div[data-name="wip"] {
   font-family: "Roboto", sans-serif;
   font-weight:300;
   font-size:24px;
   text-align:center;
   margin-top:1%;
+}
+
+div[data-name="links"] {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:2%;
+}
+
+div[data-name="icons"] {
+    
 }
