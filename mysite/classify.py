@@ -9,8 +9,8 @@ def most_color(img_file):
     red = np.sum(img[:,:,0])
     green = np.sum(img[:,:,1])
     blue = np.sum(img[:,:,2])
-    
-    if red == 0 and green == 0 and blue == 0:
+
+    if red == green and green == blue:
         return "gray"
 
     if red > green and red > blue:
