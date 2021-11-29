@@ -1,10 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 import tensorflow as tf
 import classify as cl
 import os
-import sys
+import io
 from PIL import Image
-import base64
 
 USER_UPLOADS = '/home/nicowhitehead/arachnid/images'
 
@@ -27,32 +26,32 @@ def index2():
 def classify():
     return cl.most_color('images/red.png')
 
-# Tests file upload to the server, accessible through browser
+# Upload an image file to the server
 @app.route("/img_upload", methods=['GET','POST'])
 def upload_img():
-    if request.method=='POST':
-        print("Content type: " + request.content_type, file=sys.stderr)
-        print("Byte stream: " + str(request.get_data()), file=sys.stderr)
-
-        img_data = base64.b64decode(request.get_data())
-        print(img_data, file=sys.stderr)
-
+    if request.method == 'POST':
         # ensure file is not empty
-        if uploaded_image.filename == '':
+        if len(request.get_data()) == 0:
             return "No file received: JPEG expected."
 
-        # ensure file is a JPEG
-        if uploaded_image.filename[-5:] != ".jpeg":
-            return "Unacceptable filetype: JPEG expected."
+        image_filepath = os.path.join(app.config['USER_UPLOADS'], "image.jpeg")
+        image = Image.open(io.BytesIO(request.get_data()))
 
-        print("after filetype checks", file=sys.stderr)
+        image_orientation = image.getexif()[0x0112] # 'Orientation' Exif tag
+        # print(image_orientation, file=sys.stderr)
 
-        image_filepath = os.path.join(app.config['USER_UPLOADS'], uploaded_image.filename.split("/")[-1])
-        uploaded_image.save(image_filepath)
+        # https://sirv.sirv.com/website/exif-orientation-values.jpg?scale.option=fill&scale.width=512&scale.height=252
+        # mirrored images are not a feasible response from the Android app; only 3,6,8 need to be considered.
+        if image_orientation == 3:
+            image = image.rotate(180, expand=1)
+        elif image_orientation == 6:
+            image = image.rotate(270, expand=1) # rotation is counter-clockwise
+        elif image_orientation == 8:
+            image = image.rotate(90, expand=1)
 
+        image.save(image_filepath)
         color = cl.most_color(image_filepath)
-
         return color
-        # return redirect(url_for('img_upload'))
     else:
+        # Currently broken - file upload expected in Byte array, not multipart form file
         return render_template('upload.html')
