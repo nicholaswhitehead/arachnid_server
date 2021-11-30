@@ -11,14 +11,14 @@ def most_color(img_file):
     blue = np.sum(img[:,:,2])
 
     if red == green and green == blue:
-        return "gray"
+        return "gray,0,extra info"
 
     if red > green and red > blue:
-        return "red"
+        return "red,1,extra info"
     elif green > red and green > blue:
-        return "green"
+        return "green,0,extra info"
     else:
-        return "blue"
+        return "blue,1,extra info"
 
 if __name__=="__main__":
     test_image = "C:/Users/Nicholas/Documents/GitHub/arachnid/images/green.png"
