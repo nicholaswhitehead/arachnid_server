@@ -3,6 +3,7 @@ import tensorflow as tf
 import classify as cl
 import os
 import io
+import time
 from PIL import Image
 
 USER_UPLOADS = '/home/nicowhitehead/arachnid/images'
@@ -34,7 +35,9 @@ def upload_img():
         if len(request.get_data()) == 0:
             return "No file received: JPEG expected."
 
-        image_filepath = os.path.join(app.config['USER_UPLOADS'], "image.jpeg")
+        # every call writes to a unique file to eliminate read/write conflicts between multiple users
+        current_time = time.time_ns()
+        image_filepath = os.path.join(app.config['USER_UPLOADS'], f"{current_time}.jpeg")
         image = Image.open(io.BytesIO(request.get_data()))
 
         image_orientation = image.getexif()[0x0112] # 'Orientation' Exif tag
@@ -51,6 +54,7 @@ def upload_img():
 
         image.save(image_filepath)
         color = cl.most_color(image_filepath)
+        os.remove(image_filepath)
         return color
     else:
         # Currently broken - file upload expected in Byte array, not multipart form file
