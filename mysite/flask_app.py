@@ -28,7 +28,7 @@ def classify():
     return cl.most_color('images/red.png')
 
 # Upload an image file to the server
-@app.route("/img_upload", methods=['GET','POST'])
+@app.route("/img_upload", methods=['POST'])
 def upload_img():
     if request.method == 'POST':
         # ensure file is not empty
@@ -53,7 +53,7 @@ def upload_img():
             image = image.rotate(90, expand=1)
 
         image.save(image_filepath)
-        color = cl.most_color(image_filepath)
+        color = cl.most_color(image_filepath) # to become TF model
         os.remove(image_filepath)
         return color
     else:
