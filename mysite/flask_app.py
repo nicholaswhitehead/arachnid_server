@@ -25,7 +25,7 @@ def index2():
 # Tests the classify model
 @app.route("/dummy_test")
 def classify():
-    return cl.most_color('images/red.png')
+    return cl.classify(r'/home/nicowhitehead/arachnid/images/tigrosa.jpg')
 
 # Upload an image file to the server
 @app.route("/img_upload", methods=['POST'])
@@ -36,7 +36,7 @@ def upload_img():
             return "No file received: JPEG expected."
 
         # every call writes to a unique file to eliminate read/write conflicts between multiple users
-        current_time = time.time_ns()
+        current_time = time.process_time()
         image_filepath = os.path.join(app.config['USER_UPLOADS'], f"{current_time}.jpeg")
         image = Image.open(io.BytesIO(request.get_data()))
 
@@ -53,7 +53,7 @@ def upload_img():
             image = image.rotate(90, expand=1)
 
         image.save(image_filepath)
-        color = cl.most_color(image_filepath) # to become TF model
+        color = cl.classify(image_filepath) # classify uses VGG16-based model to predict class of image
         os.remove(image_filepath)
         return color
     else:
