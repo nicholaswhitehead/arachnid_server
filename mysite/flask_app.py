@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from flask_sqlalchemy import SQLAlchemy
 import tensorflow as tf
 import classify as cl
 import os
@@ -11,6 +12,26 @@ USER_UPLOADS = '/home/nicowhitehead/arachnid/images'
 app = Flask(__name__)
 app.config['USER_UPLOADS'] = USER_UPLOADS
 app.config['MAX_CONTENT_LENGTH'] = 8192 * 8192
+
+# SQL set up code modified from pythonanywhere tutorial at https://blog.pythonanywhere.com/121/
+SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
+    username="nicowhitehead",
+    password="spiderdbpass",
+    hostname="nicowhitehead.mysql.pythonanywhere-services.com",
+    databasename="nicowhitehead$spiderresults",
+)
+app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
+app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db = SQLAlchemy(app)
+
+class Spider(db.Model):
+    __tablename__ = "spiders"
+    spider_id = db.Column(db.Integer, primary_key=True)
+    species = db.Column(db.String(50))
+    venom = db.Column(db.Integer)
+    text = db.Column(db.String(200))
+
 
 # Main website homescreen
 @app.route("/")
@@ -25,7 +46,10 @@ def index2():
 # Tests the classify model
 @app.route("/dummy_test")
 def classify():
-    return cl.classify(r'/home/nicowhitehead/arachnid/images/tigrosa.jpg')
+    classification = cl.classify(r'/home/nicowhitehead/arachnid/images/tigrosa.jpg')
+    spider = Spider.query.filter_by(spider_id=int(classification)).first()
+    output = '|'.join([spider.species, str(spider.venom), spider.text])
+    return output
 
 # Upload an image file to the server
 @app.route("/img_upload", methods=['POST'])
@@ -53,9 +77,11 @@ def upload_img():
             image = image.rotate(90, expand=1)
 
         image.save(image_filepath)
-        color = cl.classify(image_filepath) # classify uses VGG16-based model to predict class of image
+        classification = cl.classify(image_filepath) # classify uses VGG16-based model to predict class of image
+        spider = Spider.query.filter_by(spider_id=int(classification)).first()
+        output = '|'.join([spider.species, str(spider.venom), spider.text])
         os.remove(image_filepath)
-        return color
+        return output
     else:
         # Currently broken - file upload expected in Byte array, not multipart form file
         return render_template('upload.html')
